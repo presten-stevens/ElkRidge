@@ -21,7 +21,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **SEND-01**: POST /send endpoint accepts phone number and message body, returns messageId
 - [x] **SEND-02**: Send endpoint returns structured error responses (invalid number, BB offline, auth failure)
 - [x] **SEND-03**: Send response indicates "queued" status (not "delivered") to reflect actual iMessage behavior
-- [ ] **SEND-04**: Delivery confirmation tracked via updated-message webhook events from BlueBubbles
+- [x] **SEND-04**: Delivery confirmation tracked via updated-message webhook events from BlueBubbles
 
 ### Read Messaging
 
@@ -32,11 +32,11 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Inbound Webhooks
 
 - [ ] **HOOK-01**: Inbound webhook fires to configurable URL on every received message
-- [ ] **HOOK-02**: Webhook payload includes sender, body, timestamp, and thread ID
+- [x] **HOOK-02**: Webhook payload includes sender, body, timestamp, and thread ID
 - [ ] **HOOK-03**: Webhook retry with exponential backoff on failed deliveries
-- [ ] **HOOK-04**: Message deduplication buffer prevents duplicate webhook fires (BlueBubbles sends 2-3 events per message)
+- [x] **HOOK-04**: Message deduplication buffer prevents duplicate webhook fires (BlueBubbles sends 2-3 events per message)
 - [ ] **HOOK-05**: Backfill on reconnect — query BlueBubbles for messages since last_synced_at, fire to webhook
-- [ ] **HOOK-06**: last_synced_at persisted in local JSON file (no database)
+- [x] **HOOK-06**: last_synced_at persisted in local JSON file (no database)
 
 ### Health & Monitoring
 
@@ -106,16 +106,16 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SEND-01 | Phase 3 | Complete |
 | SEND-02 | Phase 3 | Complete |
 | SEND-03 | Phase 3 | Complete |
-| SEND-04 | Phase 5 | Pending |
+| SEND-04 | Phase 5 | Complete |
 | READ-01 | Phase 4 | Complete |
 | READ-02 | Phase 4 | Complete |
 | READ-03 | Phase 4 | Complete |
 | HOOK-01 | Phase 5 | Pending |
-| HOOK-02 | Phase 5 | Pending |
+| HOOK-02 | Phase 5 | Complete |
 | HOOK-03 | Phase 6 | Pending |
-| HOOK-04 | Phase 5 | Pending |
+| HOOK-04 | Phase 5 | Complete |
 | HOOK-05 | Phase 6 | Pending |
-| HOOK-06 | Phase 5 | Pending |
+| HOOK-06 | Phase 5 | Complete |
 | HLTH-01 | Phase 7 | Pending |
 | HLTH-02 | Phase 7 | Pending |
 | HLTH-03 | Phase 7 | Pending |
