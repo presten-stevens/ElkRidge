@@ -66,7 +66,7 @@ Plans:
 
 Plans:
 - [x] 03-01-PLAN.md — Error type system, BlueBubbles API client, token bucket rate limiter, env schema extension
-- [ ] 03-02-PLAN.md — POST /send route with Zod validation, fire-and-forget jitter send, integration tests
+- [x] 03-02-PLAN.md — POST /send route with Zod validation, fire-and-forget jitter send, integration tests
 
 ### Phase 4: Read Messaging
 **Goal**: Tyler can retrieve conversation lists and message history through the API to display in his CRM

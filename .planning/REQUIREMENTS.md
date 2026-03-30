@@ -18,9 +18,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Send Messaging
 
-- [ ] **SEND-01**: POST /send endpoint accepts phone number and message body, returns messageId
+- [x] **SEND-01**: POST /send endpoint accepts phone number and message body, returns messageId
 - [x] **SEND-02**: Send endpoint returns structured error responses (invalid number, BB offline, auth failure)
-- [ ] **SEND-03**: Send response indicates "queued" status (not "delivered") to reflect actual iMessage behavior
+- [x] **SEND-03**: Send response indicates "queued" status (not "delivered") to reflect actual iMessage behavior
 - [ ] **SEND-04**: Delivery confirmation tracked via updated-message webhook events from BlueBubbles
 
 ### Read Messaging
@@ -103,9 +103,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SETUP-04 | Phase 2 | Complete |
 | SETUP-05 | Phase 2 | Complete |
 | SETUP-06 | Phase 3 | Complete |
-| SEND-01 | Phase 3 | Pending |
+| SEND-01 | Phase 3 | Complete |
 | SEND-02 | Phase 3 | Complete |
-| SEND-03 | Phase 3 | Pending |
+| SEND-03 | Phase 3 | Complete |
 | SEND-04 | Phase 5 | Pending |
 | READ-01 | Phase 4 | Pending |
 | READ-02 | Phase 4 | Pending |
