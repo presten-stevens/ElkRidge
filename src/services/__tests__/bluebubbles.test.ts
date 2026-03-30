@@ -28,7 +28,7 @@ describe('BlueBubblesClient', () => {
     const [url, options] = fetchMock.mock.calls[0] as [string, RequestInit];
     expect(url).toContain('/api/v1/message/text');
     const body = JSON.parse(options.body as string) as Record<string, unknown>;
-    expect(body.chatGuid).toBe('any;-;++12135551234');
+    expect(body.chatGuid).toBe('any;-;+12135551234');
   });
 
   it('sendMessage returns guid from BB response', async () => {
