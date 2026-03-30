@@ -120,6 +120,13 @@ export class BlueBubblesClient {
     };
   }
 
+  async getMessagesSince(afterMs: number, offset: number, limit: number): Promise<BBMessage[]> {
+    const { data } = await this.requestWithMeta<BBMessage[]>(
+      `/api/v1/message?limit=${limit}&offset=${offset}&sort=ASC&after=${afterMs}`,
+    );
+    return data;
+  }
+
   async sendMessage(phone: string, message: string): Promise<{ guid: string; text: string }> {
     const tempGuid = crypto.randomUUID();
     return this.request<{ guid: string; text: string }>('/api/v1/message/text', {
