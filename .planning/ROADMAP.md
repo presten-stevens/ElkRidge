@@ -65,7 +65,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: TBD
+- [ ] 03-01-PLAN.md — Error type system, BlueBubbles API client, token bucket rate limiter, env schema extension
+- [ ] 03-02-PLAN.md — POST /send route with Zod validation, fire-and-forget jitter send, integration tests
 
 ### Phase 4: Read Messaging
 **Goal**: Tyler can retrieve conversation lists and message history through the API to display in his CRM
@@ -157,8 +158,8 @@ Note: Phases 3, 4, 5, and 7 all depend on Phase 2 and can be developed in any or
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. BlueBubbles Setup & Verification | 0/? | Not started | - |
-| 2. Project Scaffold & Configuration | 0/? | Not started | - |
-| 3. Send Messaging | 0/? | Not started | - |
+| 2. Project Scaffold & Configuration | 2/2 | Complete | 2026-03-30 |
+| 3. Send Messaging | 0/2 | Planning complete | - |
 | 4. Read Messaging | 0/? | Not started | - |
 | 5. Inbound Webhook Pipeline | 0/? | Not started | - |
 | 6. Webhook Reliability & Backfill | 0/? | Not started | - |
