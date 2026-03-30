@@ -109,7 +109,7 @@ Plans:
 
 Plans:
 - [x] 06-01-PLAN.md — Retry queue with exponential backoff, webhook-relay integration, env schema extension
-- [ ] 06-02-PLAN.md — Backfill service, BB client getMessagesSince, bb-events reconnect trigger, server.ts startup wiring
+- [x] 06-02-PLAN.md — Backfill service, BB client getMessagesSince, bb-events reconnect trigger, server.ts startup wiring
 
 ### Phase 7: Health & Monitoring
 **Goal**: Tyler knows the instant something breaks -- the health endpoint reports real status and alerts fire proactively on downtime

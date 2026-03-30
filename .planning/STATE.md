@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Completed 06-01-PLAN.md
-last_updated: "2026-03-30T22:14:18.131Z"
+status: verifying
+stopped_at: Completed 06-02-PLAN.md
+last_updated: "2026-03-30T22:19:45.543Z"
 last_activity: 2026-03-30
 progress:
   total_phases: 9
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 10
-  completed_plans: 9
+  completed_plans: 10
   percent: 50
 ---
 
@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-03-30)
 
 Phase: 6
 Plan: 2 of 2
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-03-30
 
 Progress: [█████░░░░░] 50%
@@ -60,6 +60,7 @@ Progress: [█████░░░░░] 50%
 | Phase 05 P01 | 2min | 2 tasks | 10 files |
 | Phase 05 P02 | 2min | 2 tasks | 5 files |
 | Phase 06 P01 | 3min | 2 tasks | 5 files |
+| Phase 06 P02 | 3min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -86,6 +87,9 @@ Recent decisions affecting current work:
 - [Phase 06]: Extracted deliverOnce as private function shared by relayToCRM and retry queue deliverFn callback
 - [Phase 06]: setTimeout chain (not setInterval) for retry processing to avoid overlap
 - [Phase 06]: processDueEntries processes ONE entry per tick to throttle recovery
+- [Phase 06]: Built InboundMessagePayload directly in backfill.ts instead of casting BBMessage to BBSocketMessage
+- [Phase 06]: Shared dedup buffer via getDedup() export from bb-events for correctness per D-09
+- [Phase 06]: initRelay() called before initBBEvents() so retry queue is ready when socket events start
 
 ### Pending Todos
 
@@ -98,6 +102,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-30T22:14:18.127Z
-Stopped at: Completed 06-01-PLAN.md
+Last session: 2026-03-30T22:19:45.539Z
+Stopped at: Completed 06-02-PLAN.md
 Resume file: None
