@@ -13,7 +13,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **SETUP-02**: iMessage send/receive verified manually through BlueBubbles before writing code
 - [ ] **SETUP-03**: BlueBubbles Private API enabled and confirmed working
 - [x] **SETUP-04**: Environment-driven configuration (no hardcoded values) supporting one instance per phone number
-- [ ] **SETUP-05**: Phone numbers normalized to E.164 international format on all inbound/outbound operations
+- [x] **SETUP-05**: Phone numbers normalized to E.164 international format on all inbound/outbound operations
 - [ ] **SETUP-06**: Outbound message rate limiting with jitter to avoid Apple spam flagging
 
 ### Send Messaging
@@ -101,7 +101,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SETUP-02 | Phase 1 | Pending |
 | SETUP-03 | Phase 1 | Pending |
 | SETUP-04 | Phase 2 | Complete |
-| SETUP-05 | Phase 2 | Pending |
+| SETUP-05 | Phase 2 | Complete |
 | SETUP-06 | Phase 3 | Pending |
 | SEND-01 | Phase 3 | Pending |
 | SEND-02 | Phase 3 | Pending |
