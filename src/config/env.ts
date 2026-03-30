@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const envSchema = z.object({
+export const envSchema = z.object({
   PORT: z.string().default('3000').transform(Number),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   BLUEBUBBLES_URL: z.string().url(),
