@@ -47,10 +47,11 @@ Plans:
   2. Phone numbers are normalized to E.164 format through a shared utility
   3. BlueBubbles password is redacted from all log output and never appears in any API response
   4. The app fails fast on startup if required environment variables are missing (zod validation)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 02-01: TBD
+- [ ] 02-01-PLAN.md — Project init, dependencies, TypeScript config, env validation, logging with redaction
+- [ ] 02-02-PLAN.md — App factory, server entry, phone utility, config files, unit tests
 
 ### Phase 3: Send Messaging
 **Goal**: Tyler can send iMessages programmatically through POST /send with proper error handling and rate limiting
@@ -61,7 +62,7 @@ Plans:
   2. POST /send with an invalid phone number returns a structured error response with a clear error code
   3. POST /send when BlueBubbles is offline returns a structured error indicating the service is unavailable
   4. Rapid sequential sends are rate-limited with jitter to prevent Apple spam flagging
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
 - [ ] 03-01: TBD
@@ -74,7 +75,7 @@ Plans:
   1. GET /conversations returns a list of threads with contact info, last message preview, timestamp, and unread count
   2. GET /conversations/:id returns the full message history for a specific thread
   3. Conversation history supports offset/limit pagination and returns correct pages
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
 - [ ] 04-01: TBD
@@ -88,7 +89,7 @@ Plans:
   2. Duplicate BlueBubbles events for the same message result in only one webhook delivery (dedup buffer working)
   3. last_synced_at is updated in a local JSON file after each successfully processed message
   4. Delivery confirmation events from BlueBubbles (updated-message) are forwarded to the CRM webhook
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
 - [ ] 05-01: TBD
@@ -101,7 +102,7 @@ Plans:
   1. When the CRM webhook URL returns an error, the delivery is retried with exponential backoff
   2. After the service restarts, messages received during downtime are queried from BlueBubbles using last_synced_at and delivered to the CRM webhook
   3. The retry queue is bounded (capped at configurable max) to prevent unbounded memory growth
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
 - [ ] 06-01: TBD
@@ -115,7 +116,7 @@ Plans:
   2. GET /health includes macOS version and BlueBubbles version in the response
   3. When BlueBubbles or iMessage goes down, an alert POST fires to the configured alert URL within the configured threshold
   4. The service polls BlueBubbles health periodically to detect silent iMessage sign-outs proactively
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
 - [ ] 07-01: TBD
@@ -128,7 +129,7 @@ Plans:
   1. All API endpoints reject requests without a valid Authorization: Bearer token
   2. The API is accessible only through nginx with HTTPS/SSL termination (direct Express port is not exposed)
   3. PM2 automatically restarts the service on crash and on macOS reboot
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
 - [ ] 08-01: TBD
@@ -142,7 +143,7 @@ Plans:
   2. AWS EC2 Mac deployment guide covers instance setup, macOS configuration, BlueBubbles installation, and service deployment
   3. Onboarding guide explains how to add a new phone number (new instance) step by step
   4. Source code is packaged and ready for ownership transfer to Tyler's team
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
 - [ ] 09-01: TBD
