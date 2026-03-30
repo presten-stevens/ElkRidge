@@ -1,5 +1,6 @@
 import { Router } from 'express';
+import { sendRouter } from './send.js';
 
 export const router = Router();
 
-// Routes will be added in Phase 3+ (send, read, health, webhooks)
+router.use(sendRouter);
