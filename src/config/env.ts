@@ -16,6 +16,7 @@ export const envSchema = z.object({
   DEFAULT_COUNTRY_CODE: z.string().default('US'),
   RATE_LIMIT_CAPACITY: z.string().default('100').transform(Number),
   RATE_LIMIT_REFILL_PER_HOUR: z.string().default('4').transform(Number),
+  RETRY_QUEUE_MAX_SIZE: z.string().default('1000').transform(Number),
 });
 
 const parsed = envSchema.safeParse(process.env);
