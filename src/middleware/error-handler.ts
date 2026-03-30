@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
+import { AppError } from '../types/errors.js';
 import { logger } from './logger.js';
 
 export function errorHandler(
@@ -9,14 +10,26 @@ export function errorHandler(
 ): void {
   logger.error({ err, req }, 'Unhandled error');
 
-  const status = 'status' in err ? (err as any).status : 500;
-  // Defense in depth: never expose raw error messages for 500+ errors (SECR-04)
-  // Only expose err.message for client errors (4xx) where messages are intentionally set
-  const message = status < 500 ? err.message : 'Internal server error';
-  res.status(status).json({
+  if (err instanceof AppError) {
+    // AppError: use structured code, retryable, and statusCode
+    // SECR-04: for 500+ errors, never expose raw message
+    const message = err.statusCode >= 500 ? 'Internal server error' : err.message;
+    res.status(err.statusCode).json({
+      error: {
+        message,
+        code: err.code,
+        retryable: err.retryable,
+      },
+    });
+    return;
+  }
+
+  // Non-AppError: generic 500 with SECR-04 protection
+  res.status(500).json({
     error: {
-      message,
+      message: 'Internal server error',
       code: 'INTERNAL_ERROR',
+      retryable: false,
     },
   });
 }
