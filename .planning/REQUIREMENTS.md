@@ -12,7 +12,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **SETUP-01**: BlueBubbles Server installed on local Mac with Full Disk Access granted
 - [ ] **SETUP-02**: iMessage send/receive verified manually through BlueBubbles before writing code
 - [ ] **SETUP-03**: BlueBubbles Private API enabled and confirmed working
-- [ ] **SETUP-04**: Environment-driven configuration (no hardcoded values) supporting one instance per phone number
+- [x] **SETUP-04**: Environment-driven configuration (no hardcoded values) supporting one instance per phone number
 - [ ] **SETUP-05**: Phone numbers normalized to E.164 international format on all inbound/outbound operations
 - [ ] **SETUP-06**: Outbound message rate limiting with jitter to avoid Apple spam flagging
 
@@ -50,7 +50,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **SECR-01**: API key authentication via Authorization: Bearer header on all endpoints
 - [ ] **SECR-02**: Nginx reverse proxy configured with HTTPS/SSL termination
 - [ ] **SECR-03**: PM2 process management for uptime across reboots
-- [ ] **SECR-04**: BlueBubbles password never exposed in API responses or logs (credential redaction)
+- [x] **SECR-04**: BlueBubbles password never exposed in API responses or logs (credential redaction)
 
 ### Documentation & Delivery
 
@@ -100,7 +100,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SETUP-01 | Phase 1 | Pending |
 | SETUP-02 | Phase 1 | Pending |
 | SETUP-03 | Phase 1 | Pending |
-| SETUP-04 | Phase 2 | Pending |
+| SETUP-04 | Phase 2 | Complete |
 | SETUP-05 | Phase 2 | Pending |
 | SETUP-06 | Phase 3 | Pending |
 | SEND-01 | Phase 3 | Pending |
@@ -123,7 +123,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SECR-01 | Phase 8 | Pending |
 | SECR-02 | Phase 8 | Pending |
 | SECR-03 | Phase 8 | Pending |
-| SECR-04 | Phase 2 | Pending |
+| SECR-04 | Phase 2 | Complete |
 | DOCS-01 | Phase 9 | Pending |
 | DOCS-02 | Phase 9 | Pending |
 | DOCS-03 | Phase 9 | Pending |

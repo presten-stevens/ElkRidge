@@ -50,7 +50,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Project init, dependencies, TypeScript config, env validation, logging with redaction
+- [x] 02-01-PLAN.md — Project init, dependencies, TypeScript config, env validation, logging with redaction
 - [ ] 02-02-PLAN.md — App factory, server entry, phone utility, config files, unit tests
 
 ### Phase 3: Send Messaging
