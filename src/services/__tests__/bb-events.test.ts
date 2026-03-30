@@ -37,12 +37,14 @@ vi.mock('../../middleware/logger.js', () => ({
 
 const mockIsDuplicate = vi.fn().mockReturnValue(false);
 const mockDestroy = vi.fn();
-vi.mock('../dedup.js', () => ({
-  DedupBuffer: vi.fn().mockImplementation(() => ({
-    isDuplicate: mockIsDuplicate,
-    destroy: mockDestroy,
-  })),
-}));
+vi.mock('../dedup.js', () => {
+  return {
+    DedupBuffer: class MockDedupBuffer {
+      isDuplicate = mockIsDuplicate;
+      destroy = mockDestroy;
+    },
+  };
+});
 
 const mockMapInbound = vi.fn().mockReturnValue({ type: 'inbound_message', messageId: 'test' });
 const mockMapDelivery = vi.fn().mockReturnValue({ type: 'delivery_confirmation', messageId: 'test' });

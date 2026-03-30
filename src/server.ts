@@ -2,9 +2,11 @@
 import { env } from './config/env.js';
 import { createApp } from './app.js';
 import { logger } from './middleware/logger.js';
+import { initBBEvents } from './services/bb-events.js';
 
 const app = createApp();
 
 app.listen(env.PORT, () => {
   logger.info({ port: env.PORT, env: env.NODE_ENV }, 'Server started');
+  initBBEvents();
 });
