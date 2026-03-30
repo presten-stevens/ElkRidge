@@ -25,9 +25,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Read Messaging
 
-- [ ] **READ-01**: GET /conversations returns all threads with contact, last message, timestamp, unread count
-- [ ] **READ-02**: GET /conversations/:id returns full message history for a thread
-- [ ] **READ-03**: Conversation history supports pagination (offset/limit)
+- [x] **READ-01**: GET /conversations returns all threads with contact, last message, timestamp, unread count
+- [x] **READ-02**: GET /conversations/:id returns full message history for a thread
+- [x] **READ-03**: Conversation history supports pagination (offset/limit)
 
 ### Inbound Webhooks
 
@@ -107,9 +107,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SEND-02 | Phase 3 | Complete |
 | SEND-03 | Phase 3 | Complete |
 | SEND-04 | Phase 5 | Pending |
-| READ-01 | Phase 4 | Pending |
-| READ-02 | Phase 4 | Pending |
-| READ-03 | Phase 4 | Pending |
+| READ-01 | Phase 4 | Complete |
+| READ-02 | Phase 4 | Complete |
+| READ-03 | Phase 4 | Complete |
 | HOOK-01 | Phase 5 | Pending |
 | HOOK-02 | Phase 5 | Pending |
 | HOOK-03 | Phase 6 | Pending |

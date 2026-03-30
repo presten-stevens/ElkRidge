@@ -79,7 +79,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — BB API types, API DTOs, extend BlueBubblesClient with getConversations/getMessages
+- [x] 04-01-PLAN.md — BB API types, API DTOs, extend BlueBubblesClient with getConversations/getMessages
 - [ ] 04-02-PLAN.md — Conversation routes with Zod validation, pagination, router mount, integration tests
 
 ### Phase 5: Inbound Webhook Pipeline
@@ -161,7 +161,7 @@ Note: Phases 3, 4, 5, and 7 all depend on Phase 2 and can be developed in any or
 | 1. BlueBubbles Setup & Verification | 0/? | Not started | - |
 | 2. Project Scaffold & Configuration | 2/2 | Complete | 2026-03-30 |
 | 3. Send Messaging | 1/2 | In Progress|  |
-| 4. Read Messaging | 0/2 | Not started | - |
+| 4. Read Messaging | 1/2 | In Progress|  |
 | 5. Inbound Webhook Pipeline | 0/? | Not started | - |
 | 6. Webhook Reliability & Backfill | 0/? | Not started | - |
 | 7. Health & Monitoring | 0/? | Not started | - |
