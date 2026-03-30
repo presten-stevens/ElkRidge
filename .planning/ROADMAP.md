@@ -108,7 +108,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 06-01: TBD
+- [ ] 06-01-PLAN.md — Retry queue with exponential backoff, webhook-relay integration, env schema extension
+- [ ] 06-02-PLAN.md — Backfill service, BB client getMessagesSince, bb-events reconnect trigger, server.ts startup wiring
 
 ### Phase 7: Health & Monitoring
 **Goal**: Tyler knows the instant something breaks -- the health endpoint reports real status and alerts fire proactively on downtime
@@ -164,7 +165,7 @@ Note: Phases 3, 4, 5, and 7 all depend on Phase 2 and can be developed in any or
 | 3. Send Messaging | 1/2 | In Progress|  |
 | 4. Read Messaging | 1/2 | In Progress|  |
 | 5. Inbound Webhook Pipeline | 1/2 | In Progress|  |
-| 6. Webhook Reliability & Backfill | 0/? | Not started | - |
+| 6. Webhook Reliability & Backfill | 0/2 | Not started | - |
 | 7. Health & Monitoring | 0/? | Not started | - |
 | 8. Security & Infrastructure | 0/? | Not started | - |
 | 9. Documentation & Delivery | 0/? | Not started | - |
