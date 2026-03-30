@@ -22,14 +22,15 @@ const mockStart = vi.fn();
 const mockDestroy = vi.fn();
 const mockEnqueue = vi.fn();
 
-vi.mock('../retry-queue.js', () => ({
-  RetryQueue: vi.fn().mockImplementation(() => ({
-    start: mockStart,
-    destroy: mockDestroy,
-    enqueue: mockEnqueue,
-    size: 0,
-  })),
-}));
+vi.mock('../retry-queue.js', () => {
+  const MockRetryQueue = vi.fn().mockImplementation(function (this: Record<string, unknown>) {
+    this.start = mockStart;
+    this.destroy = mockDestroy;
+    this.enqueue = mockEnqueue;
+    this.size = 0;
+  });
+  return { RetryQueue: MockRetryQueue };
+});
 
 import {
   relayToCRM,
