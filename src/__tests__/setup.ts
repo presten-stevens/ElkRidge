@@ -6,3 +6,5 @@ process.env['NODE_ENV'] = 'test';
 process.env['LOG_LEVEL'] = 'error';
 process.env['ENABLE_PRETTY_LOGS'] = 'false';
 process.env['DEFAULT_COUNTRY_CODE'] = 'US';
+process.env['RATE_LIMIT_CAPACITY'] = '100';
+process.env['RATE_LIMIT_REFILL_PER_HOUR'] = '4';

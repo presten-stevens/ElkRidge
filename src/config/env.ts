@@ -14,6 +14,8 @@ export const envSchema = z.object({
     .default('false')
     .transform((val) => val === 'true'),
   DEFAULT_COUNTRY_CODE: z.string().default('US'),
+  RATE_LIMIT_CAPACITY: z.string().default('100').transform(Number),
+  RATE_LIMIT_REFILL_PER_HOUR: z.string().default('4').transform(Number),
 });
 
 const parsed = envSchema.safeParse(process.env);
