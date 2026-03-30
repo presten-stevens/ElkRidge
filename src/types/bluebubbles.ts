@@ -18,6 +18,21 @@ export interface BBChat {
   lastMessage?: BBMessage;
 }
 
+export interface BBSocketMessage {
+  guid: string;
+  text: string | null;
+  isFromMe: boolean;
+  dateCreated: number;
+  dateDelivered: number;
+  dateRead: number;
+  handle: { address: string } | null;
+  chats: Array<{ guid: string }>;
+  attachments: Array<{ guid: string; mimeType: string; transferName: string; totalBytes: number }>;
+  associatedMessageGuid: string;
+  associatedMessageType: string;
+  error: number;
+}
+
 export interface BBPaginatedResponse<T> {
   data: T[];
   metadata: {
