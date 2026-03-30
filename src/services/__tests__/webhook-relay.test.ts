@@ -4,6 +4,7 @@ import type { BBSocketMessage } from '../../types/bluebubbles.js';
 vi.mock('../../config/env.js', () => ({
   env: {
     CRM_WEBHOOK_URL: 'https://crm.example.com/webhook',
+    RETRY_QUEUE_MAX_SIZE: 1000,
     LOG_LEVEL: 'info',
   },
 }));
@@ -17,9 +18,30 @@ vi.mock('../../middleware/logger.js', () => ({
   },
 }));
 
-import { relayToCRM, mapInboundMessage, mapDeliveryConfirmation } from '../webhook-relay.js';
+const mockStart = vi.fn();
+const mockDestroy = vi.fn();
+const mockEnqueue = vi.fn();
+
+vi.mock('../retry-queue.js', () => ({
+  RetryQueue: vi.fn().mockImplementation(() => ({
+    start: mockStart,
+    destroy: mockDestroy,
+    enqueue: mockEnqueue,
+    size: 0,
+  })),
+}));
+
+import {
+  relayToCRM,
+  mapInboundMessage,
+  mapDeliveryConfirmation,
+  relayWithRetry,
+  initRelay,
+  shutdownRelay,
+} from '../webhook-relay.js';
 import { env } from '../../config/env.js';
 import { logger } from '../../middleware/logger.js';
+import { RetryQueue } from '../retry-queue.js';
 
 function makeBBSocketMessage(overrides: Partial<BBSocketMessage> = {}): BBSocketMessage {
   return {
@@ -126,6 +148,15 @@ describe('relayToCRM', () => {
     vi.restoreAllMocks();
   });
 
+  it('returns true on successful 200 response', async () => {
+    fetchMock.mockResolvedValue({ ok: true, status: 200 });
+
+    const payload = mapInboundMessage(makeBBSocketMessage());
+    const result = await relayToCRM(payload);
+
+    expect(result).toBe(true);
+  });
+
   it('posts InboundMessagePayload to CRM_WEBHOOK_URL with correct headers', async () => {
     fetchMock.mockResolvedValue({ ok: true, status: 200 });
 
@@ -150,28 +181,29 @@ describe('relayToCRM', () => {
     expect(body.type).toBe('delivery_confirmation');
   });
 
-  it('logs warning and returns when CRM_WEBHOOK_URL is not configured', async () => {
+  it('returns true when CRM_WEBHOOK_URL is not configured (skip is not failure)', async () => {
     const mutableEnv = env as { CRM_WEBHOOK_URL: string | undefined };
     const original = mutableEnv.CRM_WEBHOOK_URL;
     mutableEnv.CRM_WEBHOOK_URL = undefined;
 
     const payload = mapInboundMessage(makeBBSocketMessage());
-    await relayToCRM(payload);
+    const result = await relayToCRM(payload);
 
+    expect(result).toBe(true);
     expect(logger.warn).toHaveBeenCalledWith('CRM_WEBHOOK_URL not configured, skipping webhook relay');
     expect(fetchMock).not.toHaveBeenCalled();
 
     mutableEnv.CRM_WEBHOOK_URL = original;
   });
 
-  it('logs error when fetch returns non-ok status', async () => {
+  it('returns false on non-ok response (500)', async () => {
     fetchMock.mockResolvedValue({ ok: false, status: 500, statusText: 'Internal Server Error' });
 
     const payload = mapInboundMessage(makeBBSocketMessage());
-    await relayToCRM(payload);
+    const result = await relayToCRM(payload);
 
+    expect(result).toBe(false);
     expect(logger.error).toHaveBeenCalled();
-    // Should NOT throw
   });
 
   it('uses AbortSignal.timeout for request timeout', async () => {
@@ -184,12 +216,87 @@ describe('relayToCRM', () => {
     expect(options.signal).toBeDefined();
   });
 
-  it('logs error and returns on network failure (does not throw)', async () => {
+  it('returns false on network failure (does not throw)', async () => {
     fetchMock.mockRejectedValue(new TypeError('fetch failed'));
 
     const payload = mapInboundMessage(makeBBSocketMessage());
-    await expect(relayToCRM(payload)).resolves.toBeUndefined();
+    const result = await relayToCRM(payload);
 
+    expect(result).toBe(false);
     expect(logger.error).toHaveBeenCalled();
+  });
+});
+
+describe('relayWithRetry', () => {
+  let fetchMock: ReturnType<typeof vi.fn>;
+
+  beforeEach(() => {
+    fetchMock = vi.fn();
+    vi.stubGlobal('fetch', fetchMock);
+    mockEnqueue.mockClear();
+    mockStart.mockClear();
+    mockDestroy.mockClear();
+    (RetryQueue as unknown as ReturnType<typeof vi.fn>).mockClear();
+  });
+
+  afterEach(() => {
+    shutdownRelay();
+    vi.restoreAllMocks();
+  });
+
+  it('does not enqueue on successful delivery', async () => {
+    fetchMock.mockResolvedValue({ ok: true, status: 200 });
+    initRelay();
+
+    const payload = mapInboundMessage(makeBBSocketMessage());
+    await relayWithRetry(payload);
+
+    expect(mockEnqueue).not.toHaveBeenCalled();
+  });
+
+  it('enqueues payload on failed delivery', async () => {
+    fetchMock.mockResolvedValue({ ok: false, status: 500, statusText: 'Error' });
+    initRelay();
+
+    const payload = mapInboundMessage(makeBBSocketMessage());
+    await relayWithRetry(payload);
+
+    expect(mockEnqueue).toHaveBeenCalledWith(payload);
+  });
+
+  it('does not enqueue when relay not initialized', async () => {
+    fetchMock.mockResolvedValue({ ok: false, status: 500, statusText: 'Error' });
+    // Do not call initRelay()
+
+    const payload = mapInboundMessage(makeBBSocketMessage());
+    await relayWithRetry(payload);
+
+    expect(mockEnqueue).not.toHaveBeenCalled();
+  });
+});
+
+describe('initRelay / shutdownRelay', () => {
+  beforeEach(() => {
+    mockStart.mockClear();
+    mockDestroy.mockClear();
+    (RetryQueue as unknown as ReturnType<typeof vi.fn>).mockClear();
+  });
+
+  afterEach(() => {
+    shutdownRelay();
+  });
+
+  it('initRelay creates RetryQueue with correct params and starts it', () => {
+    initRelay();
+
+    expect(RetryQueue).toHaveBeenCalledWith(1000, 5, expect.any(Function));
+    expect(mockStart).toHaveBeenCalledTimes(1);
+  });
+
+  it('shutdownRelay calls destroy on the retry queue', () => {
+    initRelay();
+    shutdownRelay();
+
+    expect(mockDestroy).toHaveBeenCalledTimes(1);
   });
 });
