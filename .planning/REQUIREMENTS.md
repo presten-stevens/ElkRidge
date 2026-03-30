@@ -31,7 +31,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Inbound Webhooks
 
-- [ ] **HOOK-01**: Inbound webhook fires to configurable URL on every received message
+- [x] **HOOK-01**: Inbound webhook fires to configurable URL on every received message
 - [x] **HOOK-02**: Webhook payload includes sender, body, timestamp, and thread ID
 - [ ] **HOOK-03**: Webhook retry with exponential backoff on failed deliveries
 - [x] **HOOK-04**: Message deduplication buffer prevents duplicate webhook fires (BlueBubbles sends 2-3 events per message)
@@ -110,7 +110,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | READ-01 | Phase 4 | Complete |
 | READ-02 | Phase 4 | Complete |
 | READ-03 | Phase 4 | Complete |
-| HOOK-01 | Phase 5 | Pending |
+| HOOK-01 | Phase 5 | Complete |
 | HOOK-02 | Phase 5 | Complete |
 | HOOK-03 | Phase 6 | Pending |
 | HOOK-04 | Phase 5 | Complete |

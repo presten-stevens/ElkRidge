@@ -95,7 +95,7 @@ Plans:
 
 Plans:
 - [x] 05-01-PLAN.md — Types, dedup buffer, sync state, webhook relay services with tests
-- [ ] 05-02-PLAN.md — Socket.IO event listener, BB events pipeline, server.ts wiring
+- [x] 05-02-PLAN.md — Socket.IO event listener, BB events pipeline, server.ts wiring
 
 ### Phase 6: Webhook Reliability & Backfill
 **Goal**: No messages are lost -- failed webhook deliveries are retried, and messages missed during downtime are backfilled on reconnect
