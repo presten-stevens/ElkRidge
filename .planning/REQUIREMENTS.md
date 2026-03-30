@@ -42,8 +42,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **HLTH-01**: GET /health returns real-time status of BlueBubbles service, iPhone connection, and iMessage auth state
 - [x] **HLTH-02**: Health endpoint includes macOS version and BlueBubbles version
-- [ ] **HLTH-03**: Downtime alerting — POST to configurable alert URL if service offline beyond configurable threshold
-- [ ] **HLTH-04**: Periodic health polling to detect iMessage sign-out or BB disconnect proactively
+- [x] **HLTH-03**: Downtime alerting — POST to configurable alert URL if service offline beyond configurable threshold
+- [x] **HLTH-04**: Periodic health polling to detect iMessage sign-out or BB disconnect proactively
 
 ### Security & Infrastructure
 
@@ -118,8 +118,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | HOOK-06 | Phase 5 | Complete |
 | HLTH-01 | Phase 7 | Complete |
 | HLTH-02 | Phase 7 | Complete |
-| HLTH-03 | Phase 7 | Pending |
-| HLTH-04 | Phase 7 | Pending |
+| HLTH-03 | Phase 7 | Complete |
+| HLTH-04 | Phase 7 | Complete |
 | SECR-01 | Phase 8 | Pending |
 | SECR-02 | Phase 8 | Pending |
 | SECR-03 | Phase 8 | Pending |
