@@ -123,7 +123,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 07-01: TBD
+- [ ] 07-01-PLAN.md — Health types, check service, GET /health route, env schema extension
+- [ ] 07-02-PLAN.md — Health monitor with periodic polling, downtime alerting, server.ts wiring
 
 ### Phase 8: Security & Infrastructure
 **Goal**: The API is production-hardened with authentication, HTTPS, and automatic process recovery
@@ -166,6 +167,6 @@ Note: Phases 3, 4, 5, and 7 all depend on Phase 2 and can be developed in any or
 | 4. Read Messaging | 1/2 | In Progress|  |
 | 5. Inbound Webhook Pipeline | 1/2 | In Progress|  |
 | 6. Webhook Reliability & Backfill | 1/2 | In Progress|  |
-| 7. Health & Monitoring | 0/? | Not started | - |
+| 7. Health & Monitoring | 0/2 | Not started | - |
 | 8. Security & Infrastructure | 0/? | Not started | - |
 | 9. Documentation & Delivery | 0/? | Not started | - |
