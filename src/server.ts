@@ -6,6 +6,7 @@ import { initBBEvents, getDedup } from './services/bb-events.js';
 import { initRelay } from './services/webhook-relay.js';
 import { runBackfill } from './services/backfill.js';
 import { getBBClient } from './services/bluebubbles.js';
+import { initHealthMonitor } from './services/health-monitor.js';
 
 const app = createApp();
 
@@ -20,4 +21,6 @@ app.listen(env.PORT, () => {
       logger.error({ err: err instanceof Error ? err.message : String(err) }, 'Startup backfill failed'),
     );
   }
+  // Health monitor starts AFTER other services (per D-15)
+  initHealthMonitor(getBBClient());
 });
