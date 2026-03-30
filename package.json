@@ -1,0 +1,32 @@
+{
+  "name": "bluebubbles-api",
+  "version": "1.0.0",
+  "description": "iMessage REST API wrapper for BlueBubbles",
+  "type": "module",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "node --watch --env-file=.env src/server.ts",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "libphonenumber-js": "^1.12.41",
+    "pino": "^10.3.1",
+    "pino-http": "^11.0.0",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.5.0",
+    "pino-pretty": "^13.1.3",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.2"
+  }
+}
