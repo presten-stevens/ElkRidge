@@ -94,7 +94,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 05-01: TBD
+- [ ] 05-01-PLAN.md — Types, dedup buffer, sync state, webhook relay services with tests
+- [ ] 05-02-PLAN.md — Socket.IO event listener, BB events pipeline, server.ts wiring
 
 ### Phase 6: Webhook Reliability & Backfill
 **Goal**: No messages are lost -- failed webhook deliveries are retried, and messages missed during downtime are backfilled on reconnect
@@ -162,7 +163,7 @@ Note: Phases 3, 4, 5, and 7 all depend on Phase 2 and can be developed in any or
 | 2. Project Scaffold & Configuration | 2/2 | Complete | 2026-03-30 |
 | 3. Send Messaging | 1/2 | In Progress|  |
 | 4. Read Messaging | 1/2 | In Progress|  |
-| 5. Inbound Webhook Pipeline | 0/? | Not started | - |
+| 5. Inbound Webhook Pipeline | 0/2 | Not started | - |
 | 6. Webhook Reliability & Backfill | 0/? | Not started | - |
 | 7. Health & Monitoring | 0/? | Not started | - |
 | 8. Security & Infrastructure | 0/? | Not started | - |
