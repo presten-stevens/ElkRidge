@@ -80,7 +80,7 @@ Plans:
 
 Plans:
 - [x] 04-01-PLAN.md — BB API types, API DTOs, extend BlueBubblesClient with getConversations/getMessages
-- [ ] 04-02-PLAN.md — Conversation routes with Zod validation, pagination, router mount, integration tests
+- [x] 04-02-PLAN.md — Conversation routes with Zod validation, pagination, router mount, integration tests
 
 ### Phase 5: Inbound Webhook Pipeline
 **Goal**: Tyler's CRM receives a webhook POST for every inbound iMessage, with deduplication and delivery status tracking
