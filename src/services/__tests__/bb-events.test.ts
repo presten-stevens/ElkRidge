@@ -48,16 +48,25 @@ vi.mock('../dedup.js', () => {
 
 const mockMapInbound = vi.fn().mockReturnValue({ type: 'inbound_message', messageId: 'test' });
 const mockMapDelivery = vi.fn().mockReturnValue({ type: 'delivery_confirmation', messageId: 'test' });
-const mockRelayCRM = vi.fn().mockResolvedValue(undefined);
+const mockRelayWithRetry = vi.fn().mockResolvedValue(undefined);
 vi.mock('../webhook-relay.js', () => ({
   mapInboundMessage: (...args: unknown[]) => mockMapInbound(...args),
   mapDeliveryConfirmation: (...args: unknown[]) => mockMapDelivery(...args),
-  relayToCRM: (...args: unknown[]) => mockRelayCRM(...args),
+  relayWithRetry: (...args: unknown[]) => mockRelayWithRetry(...args),
 }));
 
 const mockWriteSyncState = vi.fn().mockResolvedValue(undefined);
 vi.mock('../sync-state.js', () => ({
   writeSyncState: (...args: unknown[]) => mockWriteSyncState(...args),
+}));
+
+const mockRunBackfill = vi.fn().mockResolvedValue(undefined);
+vi.mock('../backfill.js', () => ({
+  runBackfill: (...args: unknown[]) => mockRunBackfill(...args),
+}));
+
+vi.mock('../bluebubbles.js', () => ({
+  getBBClient: vi.fn().mockReturnValue({ getMessagesSince: vi.fn() }),
 }));
 
 import { io } from 'socket.io-client';
@@ -169,7 +178,7 @@ describe('bb-events', () => {
 
       expect(mockIsDuplicate).toHaveBeenCalledWith('msg-guid-1');
       expect(mockMapInbound).toHaveBeenCalledWith(msg);
-      expect(mockRelayCRM).toHaveBeenCalled();
+      expect(mockRelayWithRetry).toHaveBeenCalled();
       expect(mockWriteSyncState).toHaveBeenCalledWith(new Date(1700000000000).toISOString());
     });
 
@@ -183,7 +192,7 @@ describe('bb-events', () => {
 
       expect(mockIsDuplicate).not.toHaveBeenCalled();
       expect(mockMapInbound).not.toHaveBeenCalled();
-      expect(mockRelayCRM).not.toHaveBeenCalled();
+      expect(mockRelayWithRetry).not.toHaveBeenCalled();
     });
 
     it('skips relay when message is a duplicate', async () => {
@@ -197,13 +206,13 @@ describe('bb-events', () => {
 
       expect(mockIsDuplicate).toHaveBeenCalledWith('msg-guid-1');
       expect(mockMapInbound).not.toHaveBeenCalled();
-      expect(mockRelayCRM).not.toHaveBeenCalled();
+      expect(mockRelayWithRetry).not.toHaveBeenCalled();
     });
 
     it('does not crash on relay error (logs and continues)', async () => {
       const { initBBEvents } = await import('../bb-events.js');
       initBBEvents();
-      mockRelayCRM.mockRejectedValueOnce(new Error('network fail'));
+      mockRelayWithRetry.mockRejectedValueOnce(new Error('network fail'));
 
       const msg = makeBBSocketMessage();
       const handler = handlers.get('new-message')!;
@@ -225,7 +234,7 @@ describe('bb-events', () => {
 
       expect(mockIsDuplicate).toHaveBeenCalledWith('msg-guid-1');
       expect(mockMapDelivery).toHaveBeenCalledWith(msg);
-      expect(mockRelayCRM).toHaveBeenCalled();
+      expect(mockRelayWithRetry).toHaveBeenCalled();
     });
 
     it('skips processing when isFromMe is false', async () => {
@@ -237,7 +246,7 @@ describe('bb-events', () => {
       await handler(msg);
 
       expect(mockMapDelivery).not.toHaveBeenCalled();
-      expect(mockRelayCRM).not.toHaveBeenCalled();
+      expect(mockRelayWithRetry).not.toHaveBeenCalled();
     });
 
     it('skips duplicate updated-message events', async () => {
@@ -250,19 +259,74 @@ describe('bb-events', () => {
       await handler(msg);
 
       expect(mockMapDelivery).not.toHaveBeenCalled();
-      expect(mockRelayCRM).not.toHaveBeenCalled();
+      expect(mockRelayWithRetry).not.toHaveBeenCalled();
     });
 
     it('does not crash on relay error (logs and continues)', async () => {
       const { initBBEvents } = await import('../bb-events.js');
       initBBEvents();
-      mockRelayCRM.mockRejectedValueOnce(new Error('relay fail'));
+      mockRelayWithRetry.mockRejectedValueOnce(new Error('relay fail'));
 
       const msg = makeBBSocketMessage({ isFromMe: true, dateDelivered: 1700000001000 });
       const handler = handlers.get('updated-message')!;
 
       await expect(handler(msg)).resolves.not.toThrow();
       expect(logger.error).toHaveBeenCalled();
+    });
+  });
+
+  describe('reconnect backfill', () => {
+    it('does NOT trigger backfill on first connect (startup)', async () => {
+      const { initBBEvents } = await import('../bb-events.js');
+      initBBEvents();
+
+      const connectHandler = handlers.get('connect')!;
+      connectHandler();
+
+      expect(mockRunBackfill).not.toHaveBeenCalled();
+    });
+
+    it('triggers backfill on reconnect (second connect event)', async () => {
+      const { initBBEvents } = await import('../bb-events.js');
+      initBBEvents();
+
+      const connectHandler = handlers.get('connect')!;
+      connectHandler(); // first connect
+      connectHandler(); // reconnect
+
+      expect(mockRunBackfill).toHaveBeenCalledTimes(1);
+    });
+
+    it('backfill error does not crash (fire-and-forget)', async () => {
+      mockRunBackfill.mockRejectedValueOnce(new Error('backfill fail'));
+
+      const { initBBEvents } = await import('../bb-events.js');
+      initBBEvents();
+
+      const connectHandler = handlers.get('connect')!;
+      connectHandler(); // first connect
+      connectHandler(); // reconnect triggers backfill
+
+      // Allow the promise rejection to be caught
+      await new Promise((resolve) => setTimeout(resolve, 10));
+
+      expect(logger.error).toHaveBeenCalledWith(
+        expect.objectContaining({ err: 'backfill fail' }),
+        'Reconnect backfill failed',
+      );
+    });
+  });
+
+  describe('getDedup', () => {
+    it('returns null before initBBEvents', async () => {
+      const { getDedup } = await import('../bb-events.js');
+      expect(getDedup()).toBeNull();
+    });
+
+    it('returns DedupBuffer instance after initBBEvents', async () => {
+      const { initBBEvents, getDedup } = await import('../bb-events.js');
+      initBBEvents();
+      expect(getDedup()).not.toBeNull();
     });
   });
 

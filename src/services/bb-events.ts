@@ -2,12 +2,15 @@ import { io, type Socket } from 'socket.io-client';
 import { env } from '../config/env.js';
 import { logger } from '../middleware/logger.js';
 import { DedupBuffer } from './dedup.js';
-import { mapInboundMessage, mapDeliveryConfirmation, relayToCRM } from './webhook-relay.js';
+import { mapInboundMessage, mapDeliveryConfirmation, relayWithRetry } from './webhook-relay.js';
 import { writeSyncState } from './sync-state.js';
+import { runBackfill } from './backfill.js';
+import { getBBClient } from './bluebubbles.js';
 import type { BBSocketMessage } from '../types/bluebubbles.js';
 
 let socket: Socket | null = null;
 let dedup: DedupBuffer | null = null;
+let isFirstConnect = true;
 
 async function handleNewMessage(data: BBSocketMessage): Promise<void> {
   try {
@@ -15,7 +18,7 @@ async function handleNewMessage(data: BBSocketMessage): Promise<void> {
     if (dedup?.isDuplicate(data.guid)) return;
 
     const payload = mapInboundMessage(data);
-    await relayToCRM(payload);
+    await relayWithRetry(payload);
     await writeSyncState(new Date(data.dateCreated).toISOString());
   } catch (err) {
     logger.error(
@@ -31,7 +34,7 @@ async function handleUpdatedMessage(data: BBSocketMessage): Promise<void> {
     if (dedup?.isDuplicate(data.guid)) return;
 
     const payload = mapDeliveryConfirmation(data);
-    await relayToCRM(payload);
+    await relayWithRetry(payload);
   } catch (err) {
     logger.error(
       { err: err instanceof Error ? err.message : String(err) },
@@ -51,7 +54,17 @@ export function initBBEvents(): void {
     reconnectionAttempts: Infinity,
   });
 
-  socket.on('connect', () => logger.info('Connected to BlueBubbles WebSocket'));
+  socket.on('connect', () => {
+    logger.info('Connected to BlueBubbles WebSocket');
+    if (isFirstConnect) {
+      isFirstConnect = false;
+    } else {
+      // Reconnect -- fire-and-forget backfill (per D-07, D-11)
+      runBackfill(getBBClient(), dedup!).catch((err) =>
+        logger.error({ err: err instanceof Error ? err.message : String(err) }, 'Reconnect backfill failed'),
+      );
+    }
+  });
   socket.on('disconnect', (reason) =>
     logger.warn({ reason }, 'Disconnected from BlueBubbles WebSocket'),
   );
@@ -60,6 +73,10 @@ export function initBBEvents(): void {
   );
   socket.on('new-message', (data: BBSocketMessage) => handleNewMessage(data));
   socket.on('updated-message', (data: BBSocketMessage) => handleUpdatedMessage(data));
+}
+
+export function getDedup(): DedupBuffer | null {
+  return dedup;
 }
 
 export function shutdownBBEvents(): void {
@@ -71,4 +88,5 @@ export function shutdownBBEvents(): void {
     dedup.destroy();
     dedup = null;
   }
+  isFirstConnect = true;
 }
