@@ -152,7 +152,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 09-01: TBD
+- [ ] 09-01-PLAN.md — API documentation with endpoint reference, error codes, auth, and curl examples
+- [ ] 09-02-PLAN.md — Deployment guide, onboarding guide, handoff docs, README, env completeness
 
 ## Progress
 
@@ -170,4 +171,4 @@ Note: Phases 3, 4, 5, and 7 all depend on Phase 2 and can be developed in any or
 | 6. Webhook Reliability & Backfill | 1/2 | In Progress|  |
 | 7. Health & Monitoring | 2/2 | Complete   | 2026-03-30 |
 | 8. Security & Infrastructure | 2/2 | Complete   | 2026-03-31 |
-| 9. Documentation & Delivery | 0/? | Not started | - |
+| 9. Documentation & Delivery | 0/2 | Not started | - |
