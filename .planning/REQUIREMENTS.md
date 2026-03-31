@@ -54,10 +54,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Documentation & Delivery
 
-- [x] **DOCS-01**: API documentation covering all endpoints (request/response formats, error codes, examples)
-- [ ] **DOCS-02**: AWS EC2 Mac deployment guide (instance setup, macOS config, BB install, service deployment)
-- [ ] **DOCS-03**: Onboarding guide for adding new devices/phone numbers
-- [ ] **DOCS-04**: Source code packaged for ownership transfer to client
+- [ ] **DOCS-01**: API documentation covering all endpoints (request/response formats, error codes, examples)
+- [x] **DOCS-02**: AWS EC2 Mac deployment guide (instance setup, macOS config, BB install, service deployment)
+- [x] **DOCS-03**: Onboarding guide for adding new devices/phone numbers
+- [x] **DOCS-04**: Source code packaged for ownership transfer to client
 
 ## v2 Requirements
 
@@ -124,10 +124,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SECR-02 | Phase 8 | Complete |
 | SECR-03 | Phase 8 | Complete |
 | SECR-04 | Phase 2 | Complete |
-| DOCS-01 | Phase 9 | Complete |
-| DOCS-02 | Phase 9 | Pending |
-| DOCS-03 | Phase 9 | Pending |
-| DOCS-04 | Phase 9 | Pending |
+| DOCS-01 | Phase 9 | Pending |
+| DOCS-02 | Phase 9 | Complete |
+| DOCS-03 | Phase 9 | Complete |
+| DOCS-04 | Phase 9 | Complete |
 
 **Coverage:**
 - v1 requirements: 31 total

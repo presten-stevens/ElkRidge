@@ -152,8 +152,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [x] 09-01-PLAN.md — API documentation with endpoint reference, error codes, auth, and curl examples
-- [ ] 09-02-PLAN.md — Deployment guide, onboarding guide, handoff docs, README, env completeness
+- [ ] 09-01-PLAN.md — API documentation with endpoint reference, error codes, auth, and curl examples
+- [x] 09-02-PLAN.md — Deployment guide, onboarding guide, handoff docs, README, env completeness
 
 ## Progress
 
