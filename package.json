@@ -7,6 +7,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/server.js",
+    "start:prod": "pm2 start ecosystem.config.js",
     "dev": "node --watch --env-file=.env src/server.ts",
     "test": "vitest run --reporter=verbose",
     "typecheck": "tsc --noEmit",

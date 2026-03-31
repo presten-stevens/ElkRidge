@@ -10,7 +10,7 @@ import { initHealthMonitor } from './services/health-monitor.js';
 
 const app = createApp();
 
-app.listen(env.PORT, () => {
+app.listen(env.PORT, '127.0.0.1', () => {
   logger.info({ port: env.PORT, env: env.NODE_ENV }, 'Server started');
   initRelay();
   initBBEvents();
