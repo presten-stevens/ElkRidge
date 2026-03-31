@@ -19,6 +19,14 @@ export const envSchema = z.object({
   RETRY_QUEUE_MAX_SIZE: z.string().default('1000').transform(Number),
   HEALTH_POLL_INTERVAL_MS: z.string().default('60000').transform(Number),
   ALERT_AFTER_FAILURES: z.string().default('2').transform(Number),
+}).superRefine((data, ctx) => {
+  if (data.NODE_ENV === 'production' && !data.API_KEY) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      message: 'API_KEY is required in production',
+      path: ['API_KEY'],
+    });
+  }
 });
 
 const parsed = envSchema.safeParse(process.env);
