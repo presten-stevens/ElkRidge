@@ -137,7 +137,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 08-01-PLAN.md — Auth middleware with Bearer token validation, error code, env conditional, route restructuring
+- [x] 08-01-PLAN.md — Auth middleware with Bearer token validation, error code, env conditional, route restructuring
 - [ ] 08-02-PLAN.md — Loopback binding, PM2 restart policies, nginx config template, startup script
 
 ### Phase 9: Documentation & Delivery
@@ -169,5 +169,5 @@ Note: Phases 3, 4, 5, and 7 all depend on Phase 2 and can be developed in any or
 | 5. Inbound Webhook Pipeline | 1/2 | In Progress|  |
 | 6. Webhook Reliability & Backfill | 1/2 | In Progress|  |
 | 7. Health & Monitoring | 2/2 | Complete   | 2026-03-30 |
-| 8. Security & Infrastructure | 0/2 | Not started | - |
+| 8. Security & Infrastructure | 1/2 | In Progress|  |
 | 9. Documentation & Delivery | 0/? | Not started | - |

@@ -47,7 +47,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Security & Infrastructure
 
-- [ ] **SECR-01**: API key authentication via Authorization: Bearer header on all endpoints
+- [x] **SECR-01**: API key authentication via Authorization: Bearer header on all endpoints
 - [ ] **SECR-02**: Nginx reverse proxy configured with HTTPS/SSL termination
 - [ ] **SECR-03**: PM2 process management for uptime across reboots
 - [x] **SECR-04**: BlueBubbles password never exposed in API responses or logs (credential redaction)
@@ -120,7 +120,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | HLTH-02 | Phase 7 | Complete |
 | HLTH-03 | Phase 7 | Complete |
 | HLTH-04 | Phase 7 | Complete |
-| SECR-01 | Phase 8 | Pending |
+| SECR-01 | Phase 8 | Complete |
 | SECR-02 | Phase 8 | Pending |
 | SECR-03 | Phase 8 | Pending |
 | SECR-04 | Phase 2 | Complete |

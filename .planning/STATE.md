@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-03-30)
 ## Current Position
 
 Phase: 8
-Plan: Not started
-Status: Ready to execute
-Last activity: 2026-03-30
+Plan: 1 of 1 (complete)
+Status: Executing
+Last activity: 2026-03-31
 
-Progress: [█████░░░░░] 50%
+Progress: [██████░░░░] 55%
 
 ## Performance Metrics
 
@@ -62,6 +62,7 @@ Progress: [█████░░░░░] 50%
 | Phase 06 P01 | 3min | 2 tasks | 5 files |
 | Phase 06 P02 | 3min | 2 tasks | 6 files |
 | Phase 07 P02 | 2min | 2 tasks | 4 files |
+| Phase 08 P01 | 2min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -92,6 +93,9 @@ Recent decisions affecting current work:
 - [Phase 06]: Shared dedup buffer via getDedup() export from bb-events for correctness per D-09
 - [Phase 06]: initRelay() called before initBBEvents() so retry queue is ready when socket events start
 - [Phase 07]: Alert state machine with consecutiveFailures counter and alertFired boolean for single-fire semantics
+- [Phase 08]: Used next(new AppError(...)) pattern for Express 5 compatible auth error passing
+- [Phase 08]: Health router mounted directly in app.ts before authMiddleware for public access bypass
+- [Phase 08]: trust proxy set to 1 for nginx reverse proxy header forwarding
 
 ### Pending Todos
 
@@ -104,6 +108,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-30T22:48:50.552Z
-Stopped at: Phase 8 context gathered
-Resume file: .planning/phases/08-security-infrastructure/08-CONTEXT.md
+Last session: 2026-03-31T03:25:39Z
+Stopped at: Completed 08-01-PLAN.md
+Resume file: .planning/phases/08-security-infrastructure/08-01-SUMMARY.md
