@@ -54,7 +54,7 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Documentation & Delivery
 
-- [ ] **DOCS-01**: API documentation covering all endpoints (request/response formats, error codes, examples)
+- [x] **DOCS-01**: API documentation covering all endpoints (request/response formats, error codes, examples)
 - [x] **DOCS-02**: AWS EC2 Mac deployment guide (instance setup, macOS config, BB install, service deployment)
 - [x] **DOCS-03**: Onboarding guide for adding new devices/phone numbers
 - [x] **DOCS-04**: Source code packaged for ownership transfer to client

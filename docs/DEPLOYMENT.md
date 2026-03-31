@@ -367,7 +367,7 @@ Expected: JSON response with `status: "healthy"` and BlueBubbles connection info
 curl -X POST https://YOUR_DOMAIN/send \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
-  -d '{"phoneNumber": "+1234567890", "message": "Test from production"}'
+  -d '{"to": "+1234567890", "message": "Test from production"}'
 ```
 
 Expected: JSON response with `messageId` and `status: "queued"`.
