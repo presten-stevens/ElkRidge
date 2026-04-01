@@ -21,8 +21,8 @@ export class BlueBubblesClient {
     let response: Response;
     try {
       response = await fetch(this.buildUrl(path), {
-        ...options,
         signal: AbortSignal.timeout(10_000),
+        ...options,
       });
     } catch {
       // Do NOT log the raw error -- it may contain the password in the URL (Pitfall 1)
@@ -122,21 +122,32 @@ export class BlueBubblesClient {
 
   async getMessagesSince(afterMs: number, offset: number, limit: number): Promise<BBMessage[]> {
     const { data } = await this.requestWithMeta<BBMessage[]>(
-      `/api/v1/message?limit=${limit}&offset=${offset}&sort=ASC&after=${afterMs}`,
+      '/api/v1/message/query',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ limit, offset, sort: 'ASC', after: afterMs }),
+      },
     );
     return data;
   }
 
-  async sendMessage(phone: string, message: string): Promise<{ guid: string; text: string }> {
+  async sendMessage(recipient: string, message: string): Promise<{ guid: string; text: string }> {
     const tempGuid = crypto.randomUUID();
+    // Email recipients use iMessage protocol; phone numbers use "any" to let BB choose
+    const isEmail = recipient.includes('@');
+    const chatGuid = isEmail ? `iMessage;-;${recipient}` : `any;-;${recipient}`;
+    // BB send can take 30-90s waiting for Apple delivery confirmation
     return this.request<{ guid: string; text: string }>('/api/v1/message/text', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        chatGuid: `any;-;${phone}`,
+        chatGuid,
         tempGuid: `temp-${tempGuid}`,
         message,
+        method: 'private-api',
       }),
+      signal: AbortSignal.timeout(120_000),
     });
   }
 }

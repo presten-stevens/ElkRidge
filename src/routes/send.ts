@@ -8,9 +8,11 @@ import { ERROR_CODES } from '../types/error-codes.js';
 import { logger } from '../middleware/logger.js';
 
 const sendSchema = z.object({
-  to: z.string().min(1, 'Phone number is required'),
+  to: z.string().min(1, 'Recipient is required'),
   message: z.string().min(1, 'Message body is required').max(5000),
 });
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const sendRouter = Router();
 
@@ -26,17 +28,21 @@ sendRouter.post('/send', async (req, res) => {
     );
   }
 
-  // 2. Normalize phone to E.164 (D-12)
-  let phone: string;
-  try {
-    phone = normalizePhone(parsed.data.to);
-  } catch {
-    throw new AppError(
-      `Invalid phone number: ${parsed.data.to}`,
-      ERROR_CODES.INVALID_PHONE,
-      false,
-      400,
-    );
+  // 2. Normalize recipient — email passthrough or phone to E.164 (D-12)
+  let recipient: string;
+  if (EMAIL_RE.test(parsed.data.to)) {
+    recipient = parsed.data.to;
+  } else {
+    try {
+      recipient = normalizePhone(parsed.data.to);
+    } catch {
+      throw new AppError(
+        `Invalid phone number or email: ${parsed.data.to}`,
+        ERROR_CODES.INVALID_PHONE,
+        false,
+        400,
+      );
+    }
   }
 
   // 3. Check rate limit (D-08)
@@ -61,11 +67,11 @@ sendRouter.post('/send', async (req, res) => {
   const sendPromise = new Promise<void>((resolve) => {
     setTimeout(async () => {
       try {
-        await client.sendMessage(phone, parsed.data.message);
-        logger.info({ tempGuid, phone, jitterMs }, 'Message sent to BlueBubbles');
+        await client.sendMessage(recipient, parsed.data.message);
+        logger.info({ tempGuid, recipient, jitterMs }, 'Message sent to BlueBubbles');
       } catch (err) {
         logger.error(
-          { tempGuid, phone, err: err instanceof Error ? err.message : err },
+          { tempGuid, recipient, err: err instanceof Error ? err.message : err },
           'Failed to send message to BlueBubbles',
         );
       }

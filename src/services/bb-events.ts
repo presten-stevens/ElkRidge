@@ -18,8 +18,13 @@ async function handleNewMessage(data: BBSocketMessage): Promise<void> {
     if (dedup?.isDuplicate(data.guid)) return;
 
     const payload = mapInboundMessage(data);
+    logger.info(
+      { sender: payload.sender, body: payload.body, threadId: payload.threadId, messageId: payload.messageId },
+      'Inbound message received',
+    );
     await relayWithRetry(payload);
     await writeSyncState(new Date(data.dateCreated).toISOString());
+    logger.info({ messageId: payload.messageId }, 'Inbound message processed');
   } catch (err) {
     logger.error(
       { err: err instanceof Error ? err.message : String(err) },
@@ -34,6 +39,10 @@ async function handleUpdatedMessage(data: BBSocketMessage): Promise<void> {
     if (dedup?.isDuplicate(data.guid)) return;
 
     const payload = mapDeliveryConfirmation(data);
+    logger.info(
+      { messageId: payload.messageId, status: payload.status },
+      'Delivery confirmation received',
+    );
     await relayWithRetry(payload);
   } catch (err) {
     logger.error(
@@ -47,7 +56,7 @@ export function initBBEvents(): void {
   dedup = new DedupBuffer();
 
   socket = io(env.BLUEBUBBLES_URL, {
-    auth: { password: env.BLUEBUBBLES_PASSWORD },
+    query: { password: env.BLUEBUBBLES_PASSWORD },
     reconnection: true,
     reconnectionDelay: 1000,
     reconnectionDelayMax: 30000,
