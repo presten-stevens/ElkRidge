@@ -108,7 +108,7 @@ describe('bb-events', () => {
       initBBEvents();
 
       expect(io).toHaveBeenCalledWith('http://localhost:1234', expect.objectContaining({
-        auth: { password: 'test-password' },
+        query: { password: 'test-password' },
         reconnection: true,
       }));
     });

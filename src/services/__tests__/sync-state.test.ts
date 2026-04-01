@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { readSyncState, writeSyncState } from '../sync-state.js';
+import { readSyncState, writeSyncState, _resetForTest } from '../sync-state.js';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 
@@ -12,6 +12,7 @@ describe('SyncState', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
+    _resetForTest();
   });
 
   afterEach(() => {

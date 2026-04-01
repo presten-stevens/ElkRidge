@@ -7,6 +7,11 @@ const SYNC_FILE = join(DATA_DIR, 'last-synced.json');
 let dirReady = false;
 let writeChain = Promise.resolve();
 
+export function _resetForTest(): void {
+  dirReady = false;
+  writeChain = Promise.resolve();
+}
+
 async function ensureDir(): Promise<void> {
   if (!dirReady) {
     await mkdir(DATA_DIR, { recursive: true });

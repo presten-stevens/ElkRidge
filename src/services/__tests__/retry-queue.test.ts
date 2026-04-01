@@ -25,11 +25,11 @@ function makePayload(id = 'msg-1'): WebhookPayload {
 }
 
 describe('RetryQueue', () => {
-  let deliverFn: ReturnType<typeof vi.fn>;
+  let deliverFn: ReturnType<typeof vi.fn<(payload: WebhookPayload) => Promise<boolean>>>;
 
   beforeEach(() => {
     vi.useFakeTimers();
-    deliverFn = vi.fn().mockResolvedValue(true);
+    deliverFn = vi.fn<(payload: WebhookPayload) => Promise<boolean>>().mockResolvedValue(true);
   });
 
   afterEach(() => {
