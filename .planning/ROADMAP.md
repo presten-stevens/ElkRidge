@@ -21,6 +21,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 7: Health & Monitoring** - Deep health checks and proactive downtime alerting (completed 2026-03-30)
 - [x] **Phase 8: Security & Infrastructure** - API key auth, nginx reverse proxy, SSL, and PM2 process management (completed 2026-03-31)
 - [ ] **Phase 9: Documentation & Delivery** - API docs, deployment guide, onboarding guide, and source code packaging
+- [ ] **Phase 10: MMS & Attachment Support** - Send and receive images/files through the API with attachment metadata in webhooks
 
 ## Phase Details
 
@@ -154,6 +155,21 @@ Plans:
 Plans:
 - [ ] 09-01-PLAN.md — API documentation with endpoint reference, error codes, auth, and curl examples
 - [x] 09-02-PLAN.md — Deployment guide, onboarding guide, handoff docs, README, env completeness
+
+### Phase 10: MMS & Attachment Support
+**Goal**: Tyler can send and receive images/files through the API, with attachment metadata included in webhook payloads
+**Depends on**: Phase 5, Phase 8
+**Requirements**: EMSG-01
+**Success Criteria** (what must be TRUE):
+  1. Inbound webhook payloads include attachment metadata (URL, mime type, filename, size) when a message has attachments
+  2. POST /send supports sending images/files by accepting a file URL or base64-encoded content
+  3. Attachments received via BlueBubbles can be downloaded through a proxy endpoint or direct URL
+  4. Existing text-only message flow is unaffected (backward compatible)
+**Plans**: TBD
+
+Plans:
+- [ ] 10-01: TBD
+- [ ] 10-02: TBD
 
 ## Progress
 
