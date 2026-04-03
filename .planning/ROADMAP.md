@@ -22,6 +22,11 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 8: Security & Infrastructure** - API key auth, nginx reverse proxy, SSL, and PM2 process management (completed 2026-03-31)
 - [ ] **Phase 9: Documentation & Delivery** - API docs, deployment guide, onboarding guide, and source code packaging
 - [ ] **Phase 10: MMS & Attachment Support** - Send and receive images/files through the API with attachment metadata in webhooks
+- [ ] **Phase 11: Group Chat Support** - Send to and receive from group chats with participant metadata
+- [ ] **Phase 12: Persistent Retry Queue** - Replace in-memory retry queue with file-based persistence to survive restarts
+- [ ] **Phase 13: Delivery Status API** - Query endpoint for sent message delivery/read status
+- [ ] **Phase 14: Outbound Message Retry** - Retry failed outbound sends when BlueBubbles is temporarily down
+- [ ] **Phase 15: Multi-Tenant Architecture** - Centralized management of multiple phone number instances
 
 ## Phase Details
 
@@ -170,6 +175,76 @@ Plans:
 Plans:
 - [ ] 10-01-PLAN.md — Types, webhook-relay attachment enrichment, backfill attachment metadata
 - [ ] 10-02-PLAN.md — Multer upload middleware, sendAttachment/downloadAttachment BB client, attachment proxy route, multipart POST /send
+
+### Phase 11: Group Chat Support
+**Goal**: Tyler can send messages to group chats and receive group messages with participant metadata in webhooks
+**Depends on**: Phase 5, Phase 10
+**Requirements**: EMSG-02
+**Success Criteria** (what must be TRUE):
+  1. POST /send supports sending to group chats by accepting a group chat identifier
+  2. Inbound webhook payloads for group messages include the group ID, sender, and participant list
+  3. GET /conversations distinguishes group chats from 1:1 threads
+  4. Existing 1:1 message flow is unaffected (backward compatible)
+**Plans**: TBD
+
+Plans:
+- [ ] 11-01: TBD
+
+### Phase 12: Persistent Retry Queue
+**Goal**: Failed webhook deliveries survive process restarts so no messages are lost during combined CRM downtime + service restart
+**Depends on**: Phase 6
+**Requirements**: EOPS-05
+**Success Criteria** (what must be TRUE):
+  1. Retry queue entries are persisted to a local file (JSON or SQLite)
+  2. On process restart, pending retries are loaded and processing resumes automatically
+  3. Retry behavior (exponential backoff, max attempts, queue bounds) is unchanged from the in-memory implementation
+  4. Existing retry flow is unaffected when the queue is empty
+**Plans**: 1 plan
+
+Plans:
+- [ ] 12-01-PLAN.md — Add file persistence to RetryQueue with atomic writes, wire async init/shutdown
+
+### Phase 13: Delivery Status API
+**Goal**: Tyler can query the delivery status of sent messages through the API instead of relying solely on webhook events
+**Depends on**: Phase 5
+**Requirements**: EOPS-06
+**Success Criteria** (what must be TRUE):
+  1. GET /messages/:id/status returns the current delivery state (sent, delivered, read, failed)
+  2. Delivery status is tracked from updated-message webhook events and stored locally
+  3. Status entries have a configurable TTL and are automatically cleaned up
+  4. The endpoint returns a clear response when no status is known for a given message
+**Plans**: TBD
+
+Plans:
+- [ ] 13-01: TBD
+
+### Phase 14: Outbound Message Retry
+**Goal**: When BlueBubbles is temporarily down, outbound send requests are queued and retried instead of silently failing
+**Depends on**: Phase 3
+**Requirements**: EOPS-07
+**Success Criteria** (what must be TRUE):
+  1. POST /send returns "queued" status and queues the message when BlueBubbles is unreachable
+  2. Queued messages are retried with exponential backoff when BlueBubbles comes back online
+  3. The outbound queue is bounded (configurable max) to prevent unbounded growth
+  4. Queue state survives process restarts (uses same persistence as Phase 12 if available)
+**Plans**: TBD
+
+Plans:
+- [ ] 14-01: TBD
+
+### Phase 15: Multi-Tenant Architecture
+**Goal**: Multiple phone numbers can be managed through a single control plane instead of independent PM2 processes
+**Depends on**: Phase 8
+**Requirements**: EOPS-04
+**Success Criteria** (what must be TRUE):
+  1. A management API endpoint lists all active instances with their health status
+  2. New phone number instances can be provisioned through the API or config file
+  3. Health monitoring aggregates status across all instances
+  4. Each instance retains independent BlueBubbles connections and API keys
+**Plans**: TBD
+
+Plans:
+- [ ] 15-01: TBD
 
 ## Progress
 
