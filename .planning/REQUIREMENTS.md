@@ -77,6 +77,9 @@ Deferred to future release. Tracked but not in current roadmap.
 - **EOPS-02**: Message delivery analytics
 - **EOPS-03**: Auto-restart BlueBubbles on crash detection
 - **EOPS-04**: Multi-instance management API (centralized control of multiple phone numbers)
+- **EOPS-05**: Persistent retry queue that survives process restarts
+- **EOPS-06**: Delivery status query API for sent messages
+- **EOPS-07**: Outbound message retry when BlueBubbles is temporarily down
 
 ## Out of Scope
 
