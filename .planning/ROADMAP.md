@@ -213,10 +213,11 @@ Plans:
   2. Delivery status is tracked from updated-message webhook events and stored locally
   3. Status entries have a configurable TTL and are automatically cleaned up
   4. The endpoint returns a clear response when no status is known for a given message
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 13-01: TBD
+- [ ] 13-01-PLAN.md — StatusStore service with TTL cleanup, DeliveryStatus type, env config, unit tests
+- [ ] 13-02-PLAN.md — GET /messages/:id/status route, bb-events/send.ts StatusStore integration, router mount
 
 ### Phase 14: Outbound Message Retry
 **Goal**: When BlueBubbles is temporarily down, outbound send requests are queued and retried instead of silently failing
