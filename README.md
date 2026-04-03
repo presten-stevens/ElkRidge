@@ -1,6 +1,6 @@
 # BlueBubbles iMessage API
 
-A production-ready REST API wrapper for [BlueBubbles](https://github.com/BlueBubblesApp/bluebubbles-app), enabling programmatic iMessage send and receive capabilities. Built for Elk Ridge Investments to integrate iMessage into Tyler's CRM workflow. The API handles outbound messaging with rate limiting, inbound webhook relay with retry logic, conversation history retrieval, and proactive health monitoring with downtime alerting.
+A production-ready REST API wrapper for [BlueBubbles](https://github.com/BlueBubblesApp/bluebubbles-app), enabling programmatic iMessage send and receive capabilities. Built by DAVID AI for Elk Ridge Investments to integrate iMessage into Tyler's CRM workflow. The API handles outbound messaging with rate limiting, inbound webhook relay with retry logic, conversation history retrieval, and proactive health monitoring with downtime alerting.
 
 ## Quick Start
 
@@ -73,4 +73,4 @@ docs/           Documentation
 
 ## License
 
-Proprietary - Elk Ridge Investments
+Proprietary - Built by DAVID AI for Elk Ridge Investments

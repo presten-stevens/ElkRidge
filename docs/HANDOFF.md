@@ -111,11 +111,9 @@ The only persisted state is `last_synced_at` in a local JSON file. Tyler's CRM h
 
 ## Contact
 
-**Developer:** Presten Stevens, Elk Ridge Investments
+**Developer:** Presten Stevens, DAVID AI
 
-**Email:** Contact via Elk Ridge Investments team channel
-
-**Phone:** Contact via Elk Ridge Investments team channel
+**Support:** Contact via DAVID AI
 
 ---
 

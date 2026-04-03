@@ -6,6 +6,113 @@ All requests and responses use JSON (`Content-Type: application/json`).
 
 ---
 
+## CRM Integration Guide
+
+This section explains how to connect your CRM (or any backend system) to this API. There are two sides to the integration: **sending messages** (your CRM calls our API) and **receiving messages** (our API calls your CRM).
+
+### Step 1: Get Your API Key
+
+Your API key is configured on the server via the `API_KEY` environment variable. You'll use this key in every request. Include it as a Bearer token:
+
+```
+Authorization: Bearer YOUR_API_KEY
+```
+
+### Step 2: Send Messages from Your CRM
+
+When a user in your CRM wants to text someone, make an HTTP POST to `/send`:
+
+```bash
+curl -X POST https://YOUR_DOMAIN/send \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"to": "+15551234567", "message": "Hey Tyler, following up on our call"}'
+```
+
+The response gives you a `messageId` you can store in your CRM to track the message:
+
+```json
+{
+  "messageId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+  "status": "queued"
+}
+```
+
+**"queued" means accepted, not delivered.** The actual iMessage send happens asynchronously. Delivery confirmation arrives via webhook (see Step 3).
+
+### Step 3: Receive Messages in Your CRM
+
+You need to set up a **webhook endpoint** on your CRM — a URL that accepts HTTP POST requests. Configure this URL on the server via the `CRM_WEBHOOK_URL` environment variable.
+
+When someone texts the iMessage number, our API sends a POST to your webhook:
+
+```json
+{
+  "type": "inbound_message",
+  "messageId": "guid-from-bluebubbles",
+  "sender": "+15551234567",
+  "body": "Hey, are you available?",
+  "timestamp": "2026-03-30T12:00:00.000Z",
+  "threadId": "iMessage;-;+15551234567"
+}
+```
+
+When a sent message is delivered or read, you get a delivery confirmation:
+
+```json
+{
+  "type": "delivery_confirmation",
+  "messageId": "guid-from-bluebubbles",
+  "status": "delivered",
+  "timestamp": "2026-03-30T12:01:00.000Z"
+}
+```
+
+**Your webhook endpoint should:**
+- Accept POST requests with JSON body
+- Return a 200 status code quickly (within a few seconds)
+- Do any heavy processing (saving to database, updating UI) asynchronously after returning 200
+- If your endpoint returns an error or times out, we retry with exponential backoff (up to 5 attempts)
+
+### Step 4: Pull Conversation History
+
+To display past messages in your CRM, use the conversation endpoints:
+
+```bash
+# List all conversations
+curl "https://YOUR_DOMAIN/conversations?limit=50" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+
+# Get messages in a specific conversation
+curl "https://YOUR_DOMAIN/conversations/iMessage;-;+15551234567?limit=50" \
+  -H "Authorization: Bearer YOUR_API_KEY"
+```
+
+### Step 5: Monitor Health (Optional)
+
+If you want your CRM to show the connection status, poll the health endpoint:
+
+```bash
+curl https://YOUR_DOMAIN/health
+```
+
+No auth required. Returns `healthy`, `degraded`, or `down`.
+
+You can also configure `ALERT_WEBHOOK_URL` on the server to receive automatic downtime alerts — same webhook pattern as above, with a `downtime_alert` payload.
+
+### Integration Checklist
+
+- [ ] Generate an API key (at least 16 characters): `openssl rand -hex 32`
+- [ ] Set `API_KEY` on the server
+- [ ] Build a webhook endpoint on your CRM that accepts POST with JSON body and returns 200
+- [ ] Set `CRM_WEBHOOK_URL` on the server to point to your webhook endpoint
+- [ ] Add HTTP client calls in your CRM to POST /send when users want to text
+- [ ] (Optional) Add GET /conversations calls to display message history in your CRM
+- [ ] (Optional) Set `ALERT_WEBHOOK_URL` to receive downtime alerts
+- [ ] Test: send a message via API, reply from a phone, verify webhook fires to your CRM
+
+---
+
 ## Authentication
 
 All endpoints except `GET /health` require a Bearer token in the `Authorization` header.

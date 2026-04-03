@@ -1,8 +1,8 @@
 # Adding a New Phone Number
 
-This checklist walks through adding a new phone number to the BlueBubbles iMessage API. Each phone number requires its own BlueBubbles instance, environment file, PM2 process, and nginx server block.
+Use this guide when you want to connect an additional iMessage phone number to your CRM. Each phone number you add gets its own API instance -- meaning your CRM can send and receive iMessages through multiple numbers independently. For example, you might have Tyler's personal number on one instance and an office line on another, both feeding into the same CRM.
 
-Print this page and check off each step as you complete it.
+Each phone number requires its own BlueBubbles instance, environment file, PM2 process, and nginx server block. This checklist walks through the full setup.
 
 ---
 
