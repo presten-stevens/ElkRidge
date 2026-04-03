@@ -227,10 +227,10 @@ Plans:
   2. Queued messages are retried with exponential backoff when BlueBubbles comes back online
   3. The outbound queue is bounded (configurable max) to prevent unbounded growth
   4. Queue state survives process restarts (uses same persistence as Phase 12 if available)
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 14-01: TBD
+- [ ] 14-01-PLAN.md — OutboundRetryQueue service, send.ts BB_OFFLINE routing, server wiring, env config, tests
 
 ### Phase 15: Multi-Tenant Architecture
 **Goal**: Multiple phone numbers can be managed through a single control plane instead of independent PM2 processes
