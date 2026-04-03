@@ -165,11 +165,11 @@ Plans:
   2. POST /send supports sending images/files by accepting a file URL or base64-encoded content
   3. Attachments received via BlueBubbles can be downloaded through a proxy endpoint or direct URL
   4. Existing text-only message flow is unaffected (backward compatible)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 10-01: TBD
-- [ ] 10-02: TBD
+- [ ] 10-01-PLAN.md — Types, webhook-relay attachment enrichment, backfill attachment metadata
+- [ ] 10-02-PLAN.md — Multer upload middleware, sendAttachment/downloadAttachment BB client, attachment proxy route, multipart POST /send
 
 ## Progress
 
@@ -188,3 +188,4 @@ Note: Phases 3, 4, 5, and 7 all depend on Phase 2 and can be developed in any or
 | 7. Health & Monitoring | 2/2 | Complete   | 2026-03-30 |
 | 8. Security & Infrastructure | 2/2 | Complete   | 2026-03-31 |
 | 9. Documentation & Delivery | 1/2 | In Progress|  |
+| 10. MMS & Attachment Support | 0/2 | Not started | - |
