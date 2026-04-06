@@ -71,6 +71,38 @@ deploy/         nginx config, PM2 startup script
 docs/           Documentation
 ```
 
+## Quick Setup with Claude
+
+Copy and paste the following prompt into Claude Code to get the API wrapper running:
+
+```
+I need you to set up the BlueBubbles iMessage API wrapper in this repo. Here's what to do:
+
+1. Run `npm install` to install dependencies
+2. Create the environment file(s) from .env.example:
+   - `cp .env.example .env.tyler_iphone`
+   - Fill in these values (I'll provide them):
+     - BLUEBUBBLES_URL (e.g. http://localhost:1235)
+     - BLUEBUBBLES_PASSWORD (the BlueBubbles server password)
+     - API_KEY (generate one with `openssl rand -hex 32`)
+     - PORT (e.g. 3000)
+     - NODE_ENV=production
+     - CRM_WEBHOOK_URL (if applicable)
+3. Run `npm run build` to compile TypeScript
+4. Install PM2 globally if not installed: `npm install -g pm2`
+5. Start with PM2: `pm2 start ecosystem.config.js`
+6. Verify it's running: `pm2 status` and `curl http://localhost:3000/health`
+7. Save PM2 process list: `pm2 save`
+
+For a second instance (second phone number), repeat step 2 with a new env file
+(e.g. .env.tyler_android) using a different PORT and BLUEBUBBLES_URL, uncomment
+the second app entry in ecosystem.config.js, and restart PM2.
+
+Refer to docs/DEPLOYMENT.md for full production setup including nginx and SSL.
+Refer to docs/ONBOARDING.md for adding additional phone numbers.
+Refer to docs/API.md for the full endpoint reference.
+```
+
 ## License
 
 Proprietary - Built by DAVID AI for Elk Ridge Investments
