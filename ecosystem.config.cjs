@@ -1,9 +1,11 @@
-export default {
+module.exports = {
   apps: [
     {
       name: 'bb-tyler-iphone',
       script: 'dist/server.js',
-      env_file: '.env.tyler_iphone',
+      cwd: '/Users/bluebuubles-team/ElkRidge',
+      node_args: '--env-file=.env.tyler_iphone',
+      exec_mode: 'fork',
       instances: 1,
       autorestart: true,
       max_restarts: 10,
